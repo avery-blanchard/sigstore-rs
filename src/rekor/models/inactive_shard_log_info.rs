@@ -9,6 +9,7 @@
  */
 
 use serde::{Deserialize, Serialize};
+use crate::rekor::TreeSize;
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct InactiveShardLogInfo {
@@ -17,7 +18,7 @@ pub struct InactiveShardLogInfo {
     pub root_hash: String,
     /// The current number of nodes in the merkle tree
     #[serde(rename = "treeSize")]
-    pub tree_size: i32,
+    pub tree_size: TreeSize,
     /// The current signed tree head
     #[serde(rename = "signedTreeHead")]
     pub signed_tree_head: String,
@@ -29,7 +30,7 @@ pub struct InactiveShardLogInfo {
 impl InactiveShardLogInfo {
     pub fn new(
         root_hash: String,
-        tree_size: i32,
+        tree_size: TreeSize,
         signed_tree_head: String,
         tree_id: String,
     ) -> InactiveShardLogInfo {

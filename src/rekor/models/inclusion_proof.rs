@@ -9,6 +9,7 @@
  */
 
 use serde::{Deserialize, Serialize};
+use crate::rekor::TreeSize;
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct InclusionProof {
@@ -20,7 +21,7 @@ pub struct InclusionProof {
     pub root_hash: String,
     /// The size of the merkle tree at the time the inclusion proof was generated
     #[serde(rename = "treeSize")]
-    pub tree_size: i64,
+    pub tree_size: TreeSize,
     /// A list of hashes required to compute the inclusion proof, sorted in order from leaf to root
     #[serde(rename = "hashes")]
     pub hashes: Vec<String>,
@@ -30,7 +31,7 @@ impl InclusionProof {
     pub fn new(
         log_index: i64,
         root_hash: String,
-        tree_size: i64,
+        tree_size: TreeSize,
         hashes: Vec<String>,
     ) -> InclusionProof {
         InclusionProof {
