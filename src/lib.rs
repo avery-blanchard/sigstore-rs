@@ -68,7 +68,7 @@
 //!     PublicKeyVerifier,
 //!     VerificationConstraintVec,
 //! };
-//! use crate::sigstore::crypto::SignatureDigestAlgorithm;
+//! use crate::sigstore::crypto::SigningScheme;
 //! use crate::sigstore::errors::SigstoreError;
 //! use sigstore::errors::SigstoreVerifyConstraintsError;
 //!
@@ -117,7 +117,7 @@
 //!     .expect("Cannot read contents of cosign public key");
 //!   let pub_key_verifier = PublicKeyVerifier::new(
 //!     &verification_key,
-//!     SignatureDigestAlgorithm::default(),
+//!     &SigningScheme::default(),
 //!   ).expect("Could not create verifier");
 //!
 //!   let verification_constraints: VerificationConstraintVec = vec![
@@ -164,12 +164,15 @@
 //!     let matches = Command::new("cmd").arg(
 //!         Arg::new("log_index")
 //!             .long("log_index")
-//!             .takes_value(true)
+//!             .value_name("LOG_INDEX")
 //!             .help("log_index of the artifact"),
 //!     );
 //!
 //!     let flags = matches.get_matches();
-//!     let index = <i32 as FromStr>::from_str(flags.value_of("log_index").unwrap_or("1")).unwrap();
+//!     let index = <i32 as FromStr>::from_str(
+//!         flags.get_one::<String>("log_index")
+//!         .unwrap_or(&"1".to_string())
+//!     ).unwrap();
 //!
 //!     let configuration = Configuration::default();
 //!
@@ -228,6 +231,7 @@ mod mock_client;
 
 pub mod cosign;
 pub mod errors;
+pub mod fulcio;
 pub mod oauth;
 pub mod registry;
 pub mod rekor;
